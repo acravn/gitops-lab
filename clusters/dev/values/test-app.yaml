@@ -1,0 +1,25 @@
+# Dev environment — fast iteration, auto-sync, lower resources
+replicaCount: 1
+
+image:
+  tag: "1.25"    # bump this to simulate a promotion
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 100m
+    memory: 128Mi
+
+podLabels:
+  tier: dev
+
+# Rollout strategy for dev — canary with fast progression
+rollout:
+  strategy: canary
+  steps:
+    - setWeight: 50
+    - pause:
+        duration: 30s    # fast for dev
+    - setWeight: 100

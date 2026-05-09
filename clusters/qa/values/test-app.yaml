@@ -1,0 +1,22 @@
+# QA environment — blue/green with manual promotion gate
+replicaCount: 2
+
+image:
+  tag: "1.24"    # intentionally behind dev to simulate promotion flow
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 200m
+    memory: 256Mi
+
+podLabels:
+  tier: qa
+
+# Rollout strategy for qa — blue/green, manual promotion
+rollout:
+  strategy: blueGreen
+  autoPromotionEnabled: false    # requires manual promotion
+  scaleDownDelaySeconds: 120     # keep blue warm for 2 minutes

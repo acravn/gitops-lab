@@ -1,0 +1,10 @@
+cluster:
+  name: cluster-qa
+  # kind - update to EKS endpoint when using EKS
+  server: https://cluster-qa-control-plane:6443
+  environment: qa
+  region: us-east-1
+  wave: "2"
+  features:
+    test-app: true
+    rollouts: true

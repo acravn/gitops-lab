@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: platform
+  namespace: argocd
+spec:
+  description: Platform team project for multi-cluster lab
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: '*'
+      server: '*'
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  orphanedResources:
+    warn: true
+  # Sync windows — block prod syncs during simulated market hours
+  syncWindows:
+    - kind: deny
+      schedule: '30 9 * * 1-5'
+      duration: 6h30m
+      namespaces:
+        - prod
+      manualSync: false

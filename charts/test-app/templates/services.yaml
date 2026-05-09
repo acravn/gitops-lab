@@ -1,0 +1,69 @@
+{{- if eq .Values.rollout.strategy "blueGreen" }}
+# Active service — receives live traffic
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-active
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 80
+      protocol: TCP
+  selector:
+    app: {{ .Release.Name }}
+---
+# Preview service — receives test traffic against green stack
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-preview
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.previewPort }}
+      targetPort: 80
+      protocol: TCP
+  selector:
+    app: {{ .Release.Name }}
+{{- else }}
+# Stable service — receives majority traffic
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-stable
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 80
+      protocol: TCP
+  selector:
+    app: {{ .Release.Name }}
+---
+# Canary service — receives canary traffic
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-canary
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 80
+      protocol: TCP
+  selector:
+    app: {{ .Release.Name }}
+{{- end }}

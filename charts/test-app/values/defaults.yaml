@@ -1,0 +1,33 @@
+replicaCount: 1
+
+image:
+  repository: nginx
+  tag: "1.25"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  activePort: 80
+  previewPort: 81    # blue/green preview service port
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 100m
+    memory: 128Mi
+
+podLabels: {}
+podAnnotations: {}
+
+rollout:
+  strategy: canary
+  autoPromotionEnabled: true
+  scaleDownDelaySeconds: 30
+  steps:
+    - setWeight: 20
+    - pause:
+        duration: 60s
+    - setWeight: 100

@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: test-app
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/YOUR_USERNAME/gitops-lab-v2.git  # <-- update this
+        revision: HEAD
+        files:
+          - path: clusters/*/cluster.yaml
+  template:
+    metadata:
+      name: 'test-app-{{cluster.name}}'
+      annotations:
+        argocd.argoproj.io/sync-wave: '{{cluster.wave}}'
+    spec:
+      project: platform
+      source:
+        repoURL: https://github.com/YOUR_USERNAME/gitops-lab-v2.git  # <-- update this
+        targetRevision: HEAD
+        path: charts/test-app
+        helm:
+          valueFiles:
+            - values/defaults.yaml
+            - '../../../clusters/{{cluster.environment}}/values/test-app.yaml'
+      destination:
+        server: '{{cluster.server}}'
+        namespace: test-app
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true
+        syncOptions:
+          - CreateNamespace=true
