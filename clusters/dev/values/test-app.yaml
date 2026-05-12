@@ -2,7 +2,7 @@
 replicaCount: 1
 
 image:
-  tag: "1.25"    # bump this to simulate a promotion
+  tag: "1.26"    # bump this to simulate a promotion
 
 resources:
   requests:
