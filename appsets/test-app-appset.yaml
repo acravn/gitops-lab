@@ -24,7 +24,7 @@ spec:
         helm:
           valueFiles:
             - values/defaults.yaml
-            - '../../../clusters/{{cluster.environment}}/values/test-app.yaml'
+            - '../clusters/{{cluster.environment}}/values/test-app.yaml'
       destination:
         server: '{{cluster.server}}'
         namespace: test-app
