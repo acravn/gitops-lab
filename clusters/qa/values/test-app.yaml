@@ -2,7 +2,7 @@
 replicaCount: 2
 
 image:
-  tag: "1.24"    # intentionally behind dev to simulate promotion flow
+  tag: "1.25"    # intentionally behind dev to simulate promotion flow
 
 resources:
   requests:
