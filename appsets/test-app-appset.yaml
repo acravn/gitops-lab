@@ -6,7 +6,7 @@ metadata:
 spec:
   generators:
     - git:
-        repoURL: https://github.com/acravn/gitops-lab-v2.git  # <-- update this
+        repoURL: git@github.com:acravn/gitops-lab.git  # <-- update this
         revision: HEAD
         files:
           - path: clusters/*/cluster.yaml
@@ -18,7 +18,7 @@ spec:
     spec:
       project: platform
       source:
-        repoURL: https://github.com/acravn/gitops-lab-v2.git  # <-- update this
+        repoURL: git@github.com:acravn/gitops-lab.git  # <-- update this
         targetRevision: HEAD
         path: charts/test-app
         helm:
