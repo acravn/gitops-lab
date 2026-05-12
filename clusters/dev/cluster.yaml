@@ -1,7 +1,7 @@
 cluster:
   name: cluster-dev
   # kind - update to EKS endpoint when using EKS
-  server: https://kubernetes.default.svc:6443
+  server: https://kubernetes.default.svc
   environment: dev
   region: us-east-1
   wave: "1"
