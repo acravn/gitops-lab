@@ -1,7 +1,7 @@
 cluster:
   name: cluster-qa
   # kind - update to EKS endpoint when using EKS
-  server: https://cluster-qa-control-plane:6443
+  server: https://172.18.0.5:6443
   environment: qa
   region: us-east-1
   wave: "2"
